@@ -1,15 +1,25 @@
+using Microsoft.EntityFrameworkCore;
+using WishList.Core.Entities;
+using WishList.Core.Services;
+using WishList.Core.Validations;
+using WishList.Data;
+using WishList.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<WishListDbContext>(options => options
+    .UseNpgsql(builder.Configuration.GetConnectionString("WishListConnection")));
+builder.Services.AddScoped<IWishListDbContext, WishListDbContext>();
+builder.Services.AddScoped<IEntityService<Item>, EntityService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IItemValidator, ItemNameValidator>();
+builder.Services.AddScoped<IItemValidator, ItemDescriptionValidator>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
