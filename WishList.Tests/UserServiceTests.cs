@@ -27,4 +27,17 @@ public class UserServiceTests
         // Assert
         result.Should().Be(userNames);
     }
+    
+    [Fact]
+    public void GetUserNames_PassEmptyList_ReturnsString()
+    {
+        // Arrange
+        var users = new List<User>();
+        
+        // Act 
+        var result = _userService.GetUserNames(users);
+        
+        // Assert
+        result.Should().Be("");
+    }
 }
