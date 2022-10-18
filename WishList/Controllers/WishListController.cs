@@ -22,7 +22,7 @@ public class WishListController : ControllerBase
     [Route("add")]
     public IActionResult CreateItem(Item item)
     {
-        if (_validators.All(v => v.IsValid(item)))
+        if (!_validators.All(v => v.IsValid(item)))
         {
             return BadRequest("Item name or description is null or empty");
         }
@@ -57,7 +57,7 @@ public class WishListController : ControllerBase
     [Route("update")]
     public IActionResult UpdateItem(Item item)
     {
-        if (_validators.All(v => v.IsValid(item)))
+        if (!_validators.All(v => v.IsValid(item)))
         {
             return BadRequest("Item name or description is null or empty");
         } 
